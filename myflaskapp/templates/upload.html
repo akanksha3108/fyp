@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+ <h1>Insert Video Lecture Recording into the Database</h1>
+{% from "includes/_formhelpers.html" import render_field %}
+
+<title>Python Flask - Video Upload and Play Example</title>
+<h2>Select a video to upload and play</h2>
+<p>
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+		<ul>
+		{% for message in messages %}
+		  <li>{{ message }}</li>
+		{% endfor %}
+		</ul>
+	  {% endif %}
+	{% endwith %}
+</p>
+<form method="post" action="/v1" enctype="multipart/form-data">
+    <dl>
+		<p>
+			<input type="file" name="file" autocomplete="off" required>
+		</p>
+    </dl>
+	<div class="form-group">
+         {{render_field(form.vsubject, class_="form-control")}}
+     </div>
+     <div class="form-group">
+         {{render_field(form.vdatee, class_="form-control")}}
+    <p>
+		<input type="submit" value="Upload">
+	</p>
+</form>
+{% endblock %}

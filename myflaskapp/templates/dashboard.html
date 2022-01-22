@@ -1,0 +1,89 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+
+<h1>Dashboard <small>Welcome {{session.username}}</small></h1>
+{% if session.userroll %}
+<a class="btn btn-success" href="add_link">Add Lecture URL</a>
+<a class="btn btn-success" href="v1">Upload Lecture Recording</a>
+{% endif %}
+<hr>
+<h4>Links</h4>
+<table class="table table-striped">
+    <tr>
+        <th>Teacher</th>
+        <th>Subject</th>
+        <th>Date</th>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for sum in summary %}
+    <tr>
+        <td>{{sum.teacher}}</td>
+        <td>{{sum.subject}}</td>
+        <td>{{sum.datee}}</td>
+        <td><a href="{{sum.link}}" class="btn btn-default pullright" style="background-color:red">Lecture</a></td>
+        <td>
+
+            <script>
+    function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+</script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<p hidden id="{{sum.id}}">{{sum.link}}</p>
+
+<button onclick="copyToClipboard('#{{sum.id}}')">Copy URL</button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<h4>Uploaded Videos</h4>
+<table class="table table-striped">
+    <tr>
+        <th>Teacher</th>
+        <th>Subject</th>
+        <th>Date</th>
+        <th></th>
+    </tr>
+    {% for v in vsummary %}
+    <tr>
+        <td>{{v.vteacher}}</td>
+        <td>{{v.vsubject}}</td>
+        <td>{{v.vdatee}}</td>
+        <td>{% if v.path %}
+	<div style="margin: 10px auto;">
+		<video width="320" height="240"autoplay="0" autostart="0" controls="controls" preload="preload">
+			<source src="{{ url_for('display_video', filename=v.path) }}" type="video/mp4"></source>
+		</video>
+	</div>
+{% endif %}</td>
+        <td>
+
+            <script>
+    function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+</script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<p hidden id="{{v.vid}}">{{v.path}}</p>
+
+<button onclick="copyToClipboard('#{{v.vid}}')">Copy Path</button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="/preblah" class="btn btn-default pullright" style="background-color:yellow">Generate Summary</a>
+{% endblock %}
+
